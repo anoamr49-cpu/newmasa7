@@ -1,15 +1,9 @@
 pluginManagement {
     val flutterSdkPath = run {
         val properties = java.util.Properties()
-        val localPropertiesFile = file("local.properties")
-        require(localPropertiesFile.exists()) {
-            "local.properties not found. Flutter must create android/local.properties before Gradle runs."
-        }
-        localPropertiesFile.inputStream().use { properties.load(it) }
+        file("local.properties").inputStream().use { properties.load(it) }
         val flutterSdkPath = properties.getProperty("flutter.sdk")
-        require(!flutterSdkPath.isNullOrBlank()) {
-            "flutter.sdk not set in local.properties"
-        }
+        require(!flutterSdkPath.isNullOrBlank()) { "flutter.sdk not set in local.properties" }
         flutterSdkPath
     }
 
@@ -24,8 +18,15 @@ pluginManagement {
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
-    id("com.android.application") version "8.7.3" apply false
-    id("org.jetbrains.kotlin.android") version "2.1.0" apply false
 }
 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "amrtools_app"
 include(":app")
