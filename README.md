@@ -47,3 +47,6 @@ com.iraqia.amr
 
 ### تنبيه الدقة المساحية
 دقة GPS الهاتف تتأثر بالسماء والمباني والعتاد. لا تستخدمه كبديل عن RTK/Total Station في أعمال التوقيع أو الحدود القانونية.
+
+## Codemagic
+يوجد ملف `codemagic.yaml` في جذر المشروع. ارفعه إلى نفس مستوى `pubspec.yaml` ثم اعمل Commit/Push، وبعدها اضغط Check for configuration file في Codemagic.
