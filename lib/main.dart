@@ -402,7 +402,7 @@ class _UnitToolState extends State<UnitTool>{
       const Text('محول الوحدات',style:TextStyle(fontSize:18,fontWeight:FontWeight.bold)),
       const SizedBox(height:12), NumField(controller:c,label:'القيمة'),
       DropdownButtonFormField<String>(
-        initialValue:unit,decoration:const InputDecoration(border:OutlineInputBorder(),labelText:'نوع التحويل'),
+        value:unit,decoration:const InputDecoration(border:OutlineInputBorder(),labelText:'نوع التحويل'),
         items:['متر → قدم','قدم → متر','م² → قدم²','قدم² → م²'].map((e)=>DropdownMenuItem(value:e,child:Text(e))).toList(),
         onChanged:(v)=>setState(()=>unit=v!)),
       const SizedBox(height:12),FilledButton(onPressed:calc,child:const Text('حوّل')),
