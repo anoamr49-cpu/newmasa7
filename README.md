@@ -50,3 +50,6 @@ com.iraqia.amr
 
 ## Codemagic
 يوجد ملف `codemagic.yaml` في جذر المشروع. ارفعه إلى نفس مستوى `pubspec.yaml` ثم اعمل Commit/Push، وبعدها اضغط Check for configuration file في Codemagic.
+
+
+Build compatibility note: Codemagic is pinned to Flutter 3.44.7 and the Android project opts out of the AGP 9/new DSL migration so it can build with the current project Gradle setup.

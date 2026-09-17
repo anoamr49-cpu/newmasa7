@@ -4,10 +4,8 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
-      flutter: stable
+      flutter: 3.44.7
     scripts:
-      - name: Set up Flutter local.properties
-        script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
       - name: Get Flutter packages
         script: flutter pub get
       - name: Analyze
@@ -22,12 +20,10 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
-      flutter: stable
+      flutter: 3.44.7
       vars:
         PACKAGE_NAME: "com.iraqia.amr"
     scripts:
-      - name: Set up Flutter local.properties
-        script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
       - name: Get Flutter packages
         script: flutter pub get
       - name: Analyze
