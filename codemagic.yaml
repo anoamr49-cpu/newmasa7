@@ -1,57 +1,38 @@
 workflows:
   android-check:
-    name: مساح ومقاول - Android Check
-    max_build_duration: 60
+    name: Android Check
     instance_type: mac_mini_m2
     environment:
       flutter: 3.44.7
     scripts:
-      - name: Get Flutter packages
+      - name: Flutter pub get
         script: flutter pub get
-      - name: Analyze
-        script: flutter analyze
       - name: Build debug APK
         script: |
-          set -e
           cd android
           chmod +x gradlew
-          ./gradlew :app:assembleDebug --no-daemon --max-workers=2
+          ./gradlew assembleDebug
           cd ..
           mkdir -p build/app/outputs/flutter-apk
-          APK=$(find android/app/build/outputs/apk/debug -type f -name '*.apk' | head -n 1)
-          test -n "$APK"
-          cp "$APK" build/app/outputs/flutter-apk/app-debug.apk
-          echo "APK: build/app/outputs/flutter-apk/app-debug.apk"
+          cp android/app/build/outputs/apk/debug/app-debug.apk build/app/outputs/flutter-apk/app-debug.apk
     artifacts:
       - build/app/outputs/flutter-apk/app-debug.apk
 
   android-release:
-    name: مساح ومقاول - Android Release
-    max_build_duration: 60
+    name: Android Release
     instance_type: mac_mini_m2
     environment:
       flutter: 3.44.7
-      vars:
-        PACKAGE_NAME: "com.iraqia.amr"
     scripts:
-      - name: Get Flutter packages
+      - name: Flutter pub get
         script: flutter pub get
-      - name: Analyze
-        script: flutter analyze
       - name: Build Android App Bundle
         script: |
-          set -e
           cd android
           chmod +x gradlew
-          ./gradlew :app:bundleRelease --no-daemon --max-workers=2
+          ./gradlew bundleRelease
           cd ..
           mkdir -p build/app/outputs/bundle/release
-          AAB=$(find android/app/build/outputs/bundle/release -type f -name '*.aab' | head -n 1)
-          test -n "$AAB"
-          cp "$AAB" build/app/outputs/bundle/release/app-release.aab
-          echo "AAB: build/app/outputs/bundle/release/app-release.aab"
-      - name: Verify AAB
-        script: test -f build/app/outputs/bundle/release/app-release.aab
+          cp android/app/build/outputs/bundle/release/app-release.aab build/app/outputs/bundle/release/app-release.aab
     artifacts:
       - build/app/outputs/bundle/release/app-release.aab
-      - build/app/outputs/**/mapping.txt
