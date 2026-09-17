@@ -11,9 +11,19 @@ workflows:
       - name: Analyze
         script: flutter analyze
       - name: Build debug APK
-        script: flutter build apk --debug --android-skip-build-dependency-validation
+        script: |
+          set -e
+          cd android
+          chmod +x gradlew
+          ./gradlew :app:assembleDebug --no-daemon --max-workers=2
+          cd ..
+          mkdir -p build/app/outputs/flutter-apk
+          APK=$(find android/app/build/outputs/apk/debug -type f -name '*.apk' | head -n 1)
+          test -n "$APK"
+          cp "$APK" build/app/outputs/flutter-apk/app-debug.apk
+          echo "APK: build/app/outputs/flutter-apk/app-debug.apk"
     artifacts:
-      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/flutter-apk/app-debug.apk
 
   android-release:
     name: مساح ومقاول - Android Release
@@ -29,12 +39,19 @@ workflows:
       - name: Analyze
         script: flutter analyze
       - name: Build Android App Bundle
-        script: flutter build appbundle --release --build-number=$BUILD_NUMBER --android-skip-build-dependency-validation
-      - name: Verify AAB
         script: |
-          echo "Searching for generated AAB..."
-          find build -type f -name "*.aab" -print
-          test -f build/app/outputs/bundle/release/app-release.aab
+          set -e
+          cd android
+          chmod +x gradlew
+          ./gradlew :app:bundleRelease --no-daemon --max-workers=2
+          cd ..
+          mkdir -p build/app/outputs/bundle/release
+          AAB=$(find android/app/build/outputs/bundle/release -type f -name '*.aab' | head -n 1)
+          test -n "$AAB"
+          cp "$AAB" build/app/outputs/bundle/release/app-release.aab
+          echo "AAB: build/app/outputs/bundle/release/app-release.aab"
+      - name: Verify AAB
+        script: test -f build/app/outputs/bundle/release/app-release.aab
     artifacts:
       - build/app/outputs/bundle/release/app-release.aab
       - build/app/outputs/**/mapping.txt
