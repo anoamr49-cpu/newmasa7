@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "com.iraqia.amr"
     compileSdk = flutter.compileSdkVersion
+    ndkVersion = "28.2.13676358"
     defaultConfig {
         applicationId = "com.iraqia.amr"
         minSdk = 23

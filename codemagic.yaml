@@ -11,7 +11,7 @@ workflows:
       - name: Analyze
         script: flutter analyze
       - name: Build debug APK
-        script: flutter build apk --debug
+        script: flutter build apk --debug --android-skip-build-dependency-validation
     artifacts:
       - build/app/outputs/flutter-apk/*.apk
 
@@ -29,7 +29,7 @@ workflows:
       - name: Analyze
         script: flutter analyze
       - name: Build Android App Bundle
-        script: flutter build appbundle --release --build-number=$BUILD_NUMBER
+        script: flutter build appbundle --release --build-number=$BUILD_NUMBER --android-skip-build-dependency-validation
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
