@@ -6,6 +6,8 @@ workflows:
     environment:
       flutter: stable
     scripts:
+      - name: Set up Flutter local.properties
+        script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
       - name: Get Flutter packages
         script: flutter pub get
       - name: Analyze
@@ -24,6 +26,8 @@ workflows:
       vars:
         PACKAGE_NAME: "com.iraqia.amr"
     scripts:
+      - name: Set up Flutter local.properties
+        script: echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
       - name: Get Flutter packages
         script: flutter pub get
       - name: Analyze
